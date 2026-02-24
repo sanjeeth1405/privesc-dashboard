@@ -10,7 +10,7 @@ export async function POST(req) {
       return NextResponse.json({ error: 'Username and password required' }, { status: 400 })
 
     const [user] = await sql`
-      SELECT u.id, u.org_id, u.password_hash, u.phone_number, o.name as org_name
+      SELECT u.id, u.org_id, u.password_hash, u.email, o.name as org_name
       FROM users u JOIN organizations o ON o.id = u.org_id
       WHERE u.username = ${username}`
     if (!user)
@@ -27,11 +27,20 @@ export async function POST(req) {
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000)
     await sql`INSERT INTO otp_codes (user_id, code, expires_at) VALUES (${user.id}, ${otp}, ${expiresAt})`
 
-    const smsResult = await sendOTP(user.phone_number, otp)
-    if (!smsResult.success) console.error('SMS failed:', smsResult.error)
+    // Send OTP via Gmail
+    const result = await sendOTP(user.email, otp)
+    if (!result.success) console.error('Email failed:', result.error)
 
-    const masked = user.phone_number.replace(/(\+\d{1,3})\d+(\d{2})$/, '$1*****$2')
-    return NextResponse.json({ success: true, userId: user.id, maskedPhone: masked, orgName: user.org_name })
+    // Mask email for display
+    const [name, domain] = user.email.split('@')
+    const masked = name.slice(0, 2) + '*****@' + domain
+
+    return NextResponse.json({
+      success: true,
+      userId: user.id,
+      maskedEmail: masked,
+      orgName: user.org_name,
+    })
   } catch (err) {
     console.error(err)
     return NextResponse.json({ error: 'Login failed' }, { status: 500 })
