@@ -4,19 +4,19 @@ import { useRouter } from 'next/navigation'
 
 export default function VerifyPage() {
   const router = useRouter()
-  const [otp,     setOtp]     = useState(['','','','','',''])
-  const [loading, setLoading] = useState(false)
-  const [error,   setError]   = useState('')
-  const [phone,   setPhone]   = useState('')
-  const [org,     setOrg]     = useState('')
-  const [userId,  setUserId]  = useState('')
-  const [timer,   setTimer]   = useState(600)
+  const [otp,         setOtp]         = useState(['','','','','',''])
+  const [loading,     setLoading]     = useState(false)
+  const [error,       setError]       = useState('')
+  const [org,         setOrg]         = useState('')
+  const [userId,      setUserId]      = useState('')
+  const [timer,       setTimer]       = useState(600)
+  const [maskedEmail, setMaskedEmail] = useState('')
   const inputs = useRef([])
 
   useEffect(() => {
-    setPhone(sessionStorage.getItem('_email') || '')
     setOrg(sessionStorage.getItem('_org') || '')
     setUserId(sessionStorage.getItem('_uid') || '')
+    setMaskedEmail(sessionStorage.getItem('_email') || '')
     const t = setInterval(() => setTimer(s => s > 0 ? s - 1 : 0), 1000)
     return () => clearInterval(t)
   }, [])
@@ -73,7 +73,8 @@ export default function VerifyPage() {
           </div>
         )}
         <p className="auth-sub">
-          A 6-digit code was sent to your email <span style={{ color:'var(--accent)' }}>{maskedEmail}</span>
+          A 6-digit OTP was sent to your email{' '}
+          <span style={{ color:'var(--accent)' }}>{maskedEmail || '...'}</span>
         </p>
         <form onSubmit={submit}>
           <div style={{ display:'flex', gap:'10px', justifyContent:'center', margin:'1.5rem 0' }} onPaste={handlePaste}>
