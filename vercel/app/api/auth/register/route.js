@@ -5,8 +5,8 @@ import sql from '@/lib/db'
 
 export async function POST(req) {
   try {
-    const { orgName, username, password, phoneNumber } = await req.json()
-    if (!orgName || !username || !password || !phoneNumber)
+    const { orgName, username, password, email } = await req.json()
+    if (!orgName || !username || !password || !email)
       return NextResponse.json({ error: 'All fields required' }, { status: 400 })
     if (password.length < 8)
       return NextResponse.json({ error: 'Password must be at least 8 characters' }, { status: 400 })
@@ -17,8 +17,8 @@ export async function POST(req) {
 
     const [org] = await sql`INSERT INTO organizations (name) VALUES (${orgName}) RETURNING id`
     const passwordHash = await bcrypt.hash(password, 12)
-    await sql`INSERT INTO users (org_id, username, password_hash, phone_number)
-              VALUES (${org.id}, ${username}, ${passwordHash}, ${phoneNumber})`
+    await sql`INSERT INTO users (org_id, username, password_hash, email)
+              VALUES (${org.id}, ${username}, ${passwordHash}, ${email})`
 
     const rawKey  = `pk_${crypto.randomBytes(24).toString('hex')}`
     const keyHash = crypto.createHash('sha256').update(rawKey).digest('hex')
