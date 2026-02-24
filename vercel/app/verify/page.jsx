@@ -14,7 +14,7 @@ export default function VerifyPage() {
   const inputs = useRef([])
 
   useEffect(() => {
-    setPhone(sessionStorage.getItem('_phone') || '')
+    setPhone(sessionStorage.getItem('_email') || '')
     setOrg(sessionStorage.getItem('_org') || '')
     setUserId(sessionStorage.getItem('_uid') || '')
     const t = setInterval(() => setTimer(s => s > 0 ? s - 1 : 0), 1000)
@@ -73,7 +73,7 @@ export default function VerifyPage() {
           </div>
         )}
         <p className="auth-sub">
-          A 6-digit code was sent to <span style={{ color:'var(--accent)' }}>{phone}</span>
+          A 6-digit code was sent to your email <span style={{ color:'var(--accent)' }}>{maskedEmail}</span>
         </p>
         <form onSubmit={submit}>
           <div style={{ display:'flex', gap:'10px', justifyContent:'center', margin:'1.5rem 0' }} onPaste={handlePaste}>
