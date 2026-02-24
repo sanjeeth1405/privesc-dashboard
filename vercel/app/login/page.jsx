@@ -21,7 +21,7 @@ export default function LoginPage() {
       const d = await r.json()
       if (!r.ok) { setError(d.error); return }
       sessionStorage.setItem('_uid',   d.userId)
-      sessionStorage.setItem('_phone', d.maskedPhone)
+      sessionStorage.setItem('_phone', d.maskedEmail)
       sessionStorage.setItem('_org',   d.orgName)
       router.push('/verify')
     } catch { setError('Network error') }
