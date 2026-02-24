@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 export default function RegisterPage() {
-  const [form,    setForm]    = useState({ orgName:'', username:'', password:'', phoneNumber:'' })
+  const [form,    setForm]    = useState({ orgName:'', username:'', password:'', email:'' })
   const [loading, setLoading] = useState(false)
   const [error,   setError]   = useState('')
   const [apiKey,  setApiKey]  = useState('')
@@ -46,8 +46,7 @@ export default function RegisterPage() {
           <div style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:'.65rem', letterSpacing:'1px', color:'var(--text2)', marginBottom:'8px' }}>
             RUN ON EACH DETECTOR MACHINE:
           </div>
-          <pre style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:'.75rem', color:'var(--green)', lineHeight:1.6, whiteSpace:'pre-wrap' }}>{`sudo python3 /opt/privilege-escalation-detector/forwarder/forwarder.py --setup
-# Enter the API key above when prompted`}</pre>
+          <pre style={{ fontFamily:"'Share Tech Mono',monospace", fontSize:'.75rem', color:'var(--green)', lineHeight:1.6, whiteSpace:'pre-wrap' }}>{`sudo python3 /opt/privilege-escalation-detector/forwarder/forwarder.py --setup`}</pre>
         </div>
         <Link href="/login" className="btn btn-primary" style={{ marginTop:'1.5rem', display:'flex', justifyContent:'center' }}>
           Proceed to Login →
@@ -79,8 +78,8 @@ export default function RegisterPage() {
             <input className="auth-input" type="password" placeholder="Min 8 characters" value={form.password} onChange={update('password')} required autoComplete="new-password" />
           </div>
           <div className="auth-field">
-            <label className="auth-label">Mobile Number (for SMS OTP)</label>
-            <input className="auth-input" type="tel" placeholder="+91xxxxxxxxxx" value={form.phoneNumber} onChange={update('phoneNumber')} required />
+            <label className="auth-label">Email (for OTP)</label>
+            <input className="auth-input" type="email" placeholder="you@gmail.com" value={form.email} onChange={update('email')} required />
           </div>
           {error && <div className="auth-error">⚠ {error}</div>}
           <button className="btn btn-primary auth-btn-full" type="submit" disabled={loading}>
