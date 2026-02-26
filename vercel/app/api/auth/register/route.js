@@ -6,14 +6,23 @@ import sql from '@/lib/db'
 export async function POST(req) {
   try {
     const { orgName, username, password, email } = await req.json()
+
     if (!orgName || !username || !password || !email)
       return NextResponse.json({ error: 'All fields required' }, { status: 400 })
+
     if (password.length < 8)
       return NextResponse.json({ error: 'Password must be at least 8 characters' }, { status: 400 })
 
+    // Check duplicate username
     const existing = await sql`SELECT id FROM users WHERE username = ${username}`
     if (existing.length > 0)
       return NextResponse.json({ error: 'Username already taken' }, { status: 409 })
+
+    // ── Check duplicate email ──────────────────────────────
+    const existingEmail = await sql`SELECT id FROM users WHERE email = ${email}`
+    if (existingEmail.length > 0)
+      return NextResponse.json({ error: 'An account with this email already exists' }, { status: 409 })
+    // ──────────────────────────────────────────────────────
 
     const [org] = await sql`INSERT INTO organizations (name) VALUES (${orgName}) RETURNING id`
     const passwordHash = await bcrypt.hash(password, 12)
