@@ -290,17 +290,17 @@ export default function SettingsPage() {
 }
 
 const S = {
-  page:         { padding:'2rem', maxWidth:'1000px' },
+  page:         { width:'100%', boxSizing:'border-box' },
   pageHeader:   { marginBottom:'2rem' },
   pageTitle:    { fontSize:'1.4rem', fontWeight:700, letterSpacing:'2px', color:'#e2e8f0', margin:'0 0 0.25rem' },
   pageSubtitle: { color:'#64748b', fontSize:'0.875rem', margin:0 },
-  section:      { background:'#1e293b', border:'1px solid #334155', borderRadius:'8px', padding:'1.5rem', marginBottom:'1.5rem' },
+  section:      { background:'#1e293b', border:'1px solid #334155', borderRadius:'8px', padding:'1.5rem', marginBottom:'1.5rem', width:'100%', boxSizing:'border-box' },
   sectionHeader:{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'1.25rem' },
   sectionTitle: { fontSize:'0.82rem', fontWeight:700, letterSpacing:'2px', color:'#22d3ee', margin:0 },
   btnAdd:       { background:'transparent', border:'1px solid #22d3ee', color:'#22d3ee', padding:'0.4rem 1rem', borderRadius:'4px', fontSize:'0.78rem', fontWeight:600, letterSpacing:'1px', cursor:'pointer' },
-  tableWrap:    { overflowX:'auto' },
-  table:        { width:'100%', borderCollapse:'collapse', fontSize:'0.875rem' },
-  th:           { textAlign:'left', padding:'0.6rem 1rem', color:'#64748b', fontSize:'0.72rem', letterSpacing:'1px', borderBottom:'1px solid #334155' },
+  tableWrap:    { overflowX:'auto', width:'100%' },
+  table:        { width:'100%', borderCollapse:'collapse', fontSize:'0.875rem', tableLayout:'fixed' },
+  th:           { textAlign:'left', padding:'0.6rem 1rem', color:'#64748b', fontSize:'0.72rem', letterSpacing:'1px', borderBottom:'1px solid #334155', width:'auto' },
   td:           { padding:'0.85rem 1rem', borderBottom:'1px solid #1a2540', color:'#e2e8f0', verticalAlign:'middle' },
   tdCenter:     { textAlign:'center', padding:'2rem', color:'#475569', fontSize:'0.875rem' },
   machineName:  { color:'#22d3ee', fontWeight:600 },
